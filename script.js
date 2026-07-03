@@ -1,22 +1,25 @@
 const container = document.getElementById("container");
-const button = document.getElementById("btn");
+const btn = document.getElementById("btn");
 
-const getData = () => {
-    fetch("https://catfact.ninja/fact", {
-        method: "GET"
-    })
-        .then(response => response.json())
-        .then(data => {
-            container.textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-            container.textContent = "Ошибка загрузки данных.";
-            console.log(error);
-        });
+const renderData = (data = {}) => {
+    const container = document.getElementById('container');
+
+    container.innerHTML = `
+        <h2>Ответ API:</h2>
+        <b>${data.fact}</b>
+    `;
 };
 
+const getData = () => {
+    fetch('https://catfact.ninja/fact', {
+        method: 'GET'
+    })
+        .then(res => res.json())
+        .then(response => renderData(response))
+        .catch(err => console.log(err));
+};
 
 getData();
 
 
-button.addEventListener("click", getData);
+btn.addEventListener("click", getData);
